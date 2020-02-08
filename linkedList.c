@@ -2,29 +2,24 @@
 #include <stdlib.h>
 
 struct Node {
-    int data;
+    int value;
     struct Node *next;
 };
 
-struct Node *newNode(int new_data) {
+void insertNode(struct Node **head, int new_value) {
     struct Node *new_node =
         (struct Node *)malloc(sizeof(struct Node));
 
-    new_node->data = new_data;
+    new_node->value = new_value;
     new_node->next = NULL;
 
-    return new_node;
-}
-
-void sortedInsert(struct Node **head_ref, struct Node *new_node) {
-    struct Node *current;
-    if (*head_ref == NULL || (*head_ref)->data >= new_node->data) {
-        new_node->next = *head_ref;
-        *head_ref = new_node;
+    if (*head == NULL || (*head)->value >= new_node->value) {
+        new_node->next = *head;
+        *head = new_node;
     } else {
-        current = *head_ref;
+        struct Node *current = *head;
         while (current->next != NULL &&
-               current->next->data < new_node->data) {
+               current->next->value < new_node->value) {
             current = current->next;
         }
         new_node->next = current->next;
@@ -34,18 +29,16 @@ void sortedInsert(struct Node **head_ref, struct Node *new_node) {
 
 void printList(struct Node *head) {
     for(;head; head = head->next){
-        printf("%d ", head->data);
+        printf("%d ", head->value);
     }
     puts("");
 }
 
 int main() {
     struct Node *head = NULL;
-    struct Node *new_node = NULL;
     int n;
     while (scanf("%d", &n),n != -1) {
-        new_node = newNode(n);
-        sortedInsert(&head, new_node);
+        insertNode(&head, n);
         printList(head);
     }
     printList(head);
